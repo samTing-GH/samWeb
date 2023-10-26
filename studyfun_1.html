@@ -1,0 +1,205 @@
+﻿<!DOCTYPE html>
+<html>
+  
+  <head>
+    <meta charset="utf-8" />
+    <title>studyfun</title>
+    <link rel="stylesheet" href="css/resetbook.css" />
+  </head>
+
+  <body bgcolor="#000000">
+    <div align="center">
+      <canvas id="canvas" width="900" height="1188" style="background-color:#ffffff"></canvas>
+    </div>
+
+  <!--/////////////////////////////////////////////////////////////////////////-->
+ <script src="createjs/easeljs-0.8.2.min.js"></script>
+ <script src="js/jquery.1.11.3.min.js"></script>
+ <!--/////////////////////////////////////////////////////////////////////////-->
+ <script src="js/bookPublic_sprite.js"></script>
+ 
+
+  <script>
+
+  //var audio1 = document.createElement("audio")
+  //audio1.src = "bublic_1.mp3"
+  
+  var soundAy=[,"bublic_1","bublic_2","bublic_3"]
+  soundHandler(soundAy)
+  //var audio = document.createElement("audio")
+      //audio.src= "bublic_1.mp3"
+  //  
+  var _publicSprite = new public_sprite()
+  var cjs
+  var canvas
+  var stage
+  var CW
+  var CH
+  //
+  //var audio=document.getElementById("SData")
+  //
+  var manifest 
+  var bgObj = [,]
+  var bg_ctr
+  
+     cjs = createjs;
+     canvas = document.getElementById("canvas");   
+
+     stage = new cjs.Stage(canvas); 
+     CW = canvas.width
+     CH = canvas.height
+     bg_ctr = new cjs.Container()
+    //
+     manifest = new cjs.SpriteSheet({
+          "images": ["studyfun.png"],
+          "frames": [
+            [1, 1, 900, 1188, 0, 0, 0], 
+            [1, 1191, 152, 181, 0, -165, -773], 
+            [155, 1191, 152, 181, 0, -380, -773], 
+            [309, 1191, 152, 181, 0, -595, -773], 
+            [463, 1191, 152, 181, 0, -165, -115], 
+            [617, 1191, 152, 181, 0, -380, -115], 
+            [771, 1191, 152, 181, 0, -595, -115],
+            [1, 1374, 152, 181, 0, -165, -335], 
+            [155, 1374, 152, 181, 0, -380, -335], 
+            [309, 1374, 152, 181, 0, -595, -335], 
+            [463, 1374, 152, 181, 0, -165, -556], 
+            [617, 1374, 152, 181, 0, -380, -556], 
+            [771, 1374, 152, 181, 0, -595, -556]
+          ],
+           "animations": {
+            "bg": { "frames": [0] }, 
+            "b_10": { "frames": [1] }, 
+            "b_11": { "frames": [2] }, 
+            "b_12": { "frames": [3] }, 
+            "b_1": { "frames": [4] }, 
+            "b_2": { "frames": [5] }, 
+            "b_3": { "frames": [6] }, 
+            "b_4": { "frames": [7] }, 
+            "b_5": { "frames": [8] }, 
+            "b_6": { "frames": [9] }, 
+            "b_7": { "frames": [10] }, 
+            "b_8": { "frames": [11] }, 
+            "b_9": { "frames": [12] } 
+          }
+
+     })
+     
+  
+     var shapeXY = [,
+                      [160,100],[370,100],[590,100],
+                      [160,320],[370,320],[590,320],
+                      [160,550],[370,550],[590,550],
+                      [160,770],[370,770],[590,770]
+                   ]
+
+     json_splitHandler();
+
+
+      function CompleteHandler(evt) {  
+          
+          
+      }
+      
+      cjs.Ticker.framerate = 32
+      cjs.Ticker.addEventListener("tick",function() { 
+          
+          stage.update();
+      });
+ 
+  /*var XY = [,]
+  var press = 0
+  $(canvas).on("mousedown",function(){
+                   press+=1
+                   console.log((stage.mouseX|0)-72,(stage.mouseY|0)-110)
+                   XY.push("("+press+")=[",(stage.mouseX|0)-72,(stage.mouseY|0)-110+"]")
+                   console.log("XY = "+XY)
+                 })*/
+
+  function json_splitHandler() {
+   
+  
+          var bgList = [,
+                      
+                          "bg","b_1", "b_2", "b_3", "b_4", "b_5", "b_6", "b_7", "b_8", "b_9", "b_10", "b_11", "b_12"
+                       ]
+
+ 
+
+      
+          _publicSprite.spriteObj(bgList, manifest, bgObj, bg_ctr, 5000, 1)
+          
+
+          var _shape
+          var g = new cjs.Graphics()
+              g.f("black")
+
+          
+          for(var i=1,bt=shapeXY.length;i<bt;i++) {
+
+             //bgObj[i].x = 0
+             //console.log(bgObj[i])
+             //
+             g.dr(0,0,150,200)
+             _shape = new cjs.Shape(g)
+             _shape.id = i
+             //_shape.name = bgList[i]
+             _shape.alpha = 0.2
+             //_shape.x = 5000
+             _shape.x = shapeXY[i][0]
+             _shape.y = shapeXY[i][1]
+            
+             
+             //_shape.addEventListener("mousedown", mouseDown)
+             $(_shape).on("mousedown", mouseDown)
+
+             stage.addChild(_shape)
+             
+          }
+              
+  }
+  
+  function mouseDown(evt) {
+    var nameID = evt.target.id
+    console.log("id = "+nameID)
+    
+    if (nameID == 1) {
+        //播放(继续播放)
+        //audio.play()
+        bublic_1.play()
+    }
+    if (nameID == 2) {
+       bublic_2.play()
+    }
+    if (nameID == 3) {
+        bublic_3.play()
+  
+    }
+    
+    
+    
+  }
+  
+  //var soundAy=[,"bublic_1","bublic_2","bublic_3"]
+  //var bublic_1, bublic_2, bublic_3
+  function soundHandler(soundAy) {
+     
+     for (var i=1;i<(3+1);i++) {
+         
+         this[soundAy[i]] = document.createElement("audio")
+         this[soundAy[i]].src= soundAy[i]+".mp3"
+     }
+  }
+  /*
+  //方式1
+    var audio = document.createElement("audio");
+    audio.src = "hangge.mp3";
+    audio.play();
+     
+    //方式2
+    var audio = new Audio("hangge.mp3");
+    audio.play();
+  */
+  </script>
+ </body>
+</html>
